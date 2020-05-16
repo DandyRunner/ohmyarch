@@ -1,0 +1,94 @@
+There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linx in the first place, and second to install less software yet do more.7
+* Install Arch
+As per instructions from Anarchy
+I select no windows manager etc, no software etc, barebone
+** Connect to the wireless network
+#+BEGIN_SRC bash
+$ nmcli device wifi list
+$ nmcli device wifi connect SSID password PASSWORD
+#+END_SRC
+
+** First packages to get going
+$ sudo pacman -S git 
+$ sudo pacman -S rsync
+$ sudo pacman -S xorg-xmodmap
+$ sudo pacman -S neovim
+$ sudo pacman -S python
+$ sudo pacman -S nodejs
+** Clone the dotfiles from the repository to kickstart upcoming software
+$ alias='dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+$ git clone --recursive --separate-git-dir=$HOME/.dotfiles.git https://github.com/dandyrunner/dotfiles.git /tmp/dotfiles
+$ rsync -rvl --exclude ".git" /tmp/dotfiles/ $HOME/
+$ rm -r /tmp/dotfiles
+$ dotfiles submodule update --init --recursive $HOME
+$ dotfiles status-showUntrackedFiles=no
+$ dotfiles config alias.untracked "status -u ."
+$ dotfiles config alias.untracked-at "status -u"
+** Time to reboot
+      Upon reboot the system wll pickup on the new dotfiles. For instance vim will call neovim, and neovim will install packages, etc
+
+** Installing the AUR
+The AUR provides many additional packages, one simple requirers when running arch
+Note the below instructions will likely pull in the 'go' package (large)
+$ cd /opt
+$ sudo git clone https://aur.archlinux.org/yay-git.git
+$ sudo chown -R ejansen:ejansen yay-git/
+$ cd yay-git
+$ makepkg -si
+
+** Installing core Tools
+*** File Manager
+**** lf
+$ yay -S lf
+* Install a Graphical Environemnt
+This is a continues changing area. 
+At the moment I am working with Suckless software to see what it is all about.
+** X 
+First install the gaphical X environment and dependencies
+$ sudo pacman -S xorg
+$ sudo pacman -S libxft
+$ sudo pacman -S libx11
+$ sudo pacman -S libxinerama
+** Dynamic Window Manager
+Install with the following:
+$ cd ~
+$ mkdir Repos
+$ cd Repos
+$ git clone https://github.com/dandyrunner/dwm
+$ cd dwm
+$ sudo make clean install
+
+You will need to have the correct terminal installed - or nothing buta black screen will greet you
+$ cd ~/Repos
+$ git clone https://github.com/dandyrunner/st
+$ cd st
+$ sudo make clean install
+
+And realy, you would need a way to fire up those apps that you don;t have key bindings for
+$ cd ~/Repos
+$ git clone https://github.com/dandyrunner/dmenu
+$ cd dmenu
+$ subo make clean install
+
+Ready to fire up the system, and enjoy.
+$ startx
+      
+* Package Installation and Configuration
+** Editor
+*** Editor - Emacs - Really what else
+$ sudo pacman -S emacs
+$ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+$ ~/.emacs/doom/bin ./inst
+*** Editor - Neovim installation
+Neovim has some Plug-ins configured that require python to be installed and enabled
+$ sudo python -m ensurepip --upgrade
+$ python3 -m pip install --user --upgrade pynvim
+$ sudo pacman -S fontconfig
+$ sudo pacman -S powerline-fonts
+** File Browser
+$ yay -S lf
+$ yay -S pistol-git
+** Browser - Brave
+A browser based on chrome, but without the peeking options build in.
+Note this package installs a number of fonts and themes.
+$ yay -S brave
