@@ -1,4 +1,4 @@
-There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linx in the first place, and second to install less software yet do more.7
+There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linx in the first place, and second to install less software yet do more.
 * Install Arch
 As per instructions from Anarchy
 I select no windows manager etc, no software etc, barebone
