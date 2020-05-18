@@ -1,7 +1,7 @@
 There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linx in the first place, and second to install less software yet do more.
 * Install Arch
 ** Ananarchy 
-Likely the easiest way to install Arch Linux is with the excellent Anarchy image. It is a prompt driven install, just the enxt level up from installing 'manually' It realy shouldn't need much of an explanation, as the options presented are straight forward if you are familiar with Linux.
+Likely the easiest way to install Arch Linux is with the excellent Anarchy image. It is a prompt driven install, just the enxt level up from installing 'manually' It really shouldn't need much of an explanation, as the options presented are straight forward if you are familiar with Linux.
 - Select no windows manager
 - Select no software
 - Select no graphical start environment
@@ -14,14 +14,18 @@ $ nmcli device wifi connect SSID password PASSWORD
 ** First packages to get going
 So now we are connected, we need some basic packages to install repositiores, our dotfiles, etc.
 #+BEGIN_SRC bash
-$ sudo pacman -S git 
-$ sudo pacman -S rsync
-$ sudo pacman -S xorg-xmodmap
-$ sudo pacman -S python
-$ sudo pacman -S nodejs
+$ sudo pacman -S git              # Git version management 
+$ sudo pacman -S rsync            # File synchronisation
+$ sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
 #+END_SRC
-** Clone the dotfiles from the repository to kickstart upcoming software
-As we install packaes we have the option of configuring them as required, or we can borrow some dotfiles (applications configurations from others). I have created my own dotfiles and required to be set up as follows:
+** User Directories 
+Install common default user directories.
+#+BEGIN_SRC bash
+$ yay -S xdg-user-dirs
+$ xdg-user-dirs-update
+#+END_SRC
+** Clone the dotfiles from the repository to kick-start upcoming software
+As we install packages we have the option of configuring them as required, or we can borrow some dotfiles (applications configurations from others). I have created my own dotfiles and required to be set up as follows:
 #+BEGIN_SRC bash
 $ alias='dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 $ git clone --recursive --separate-git-dir=$HOME/.dotfiles.git https://github.com/dandyrunner/dotfiles.git /tmp/dotfiles
@@ -33,7 +37,7 @@ $ dotfiles config alias.untracked "status -u ."
 $ dotfiles config alias.untracked-at "status -u"
 #+END_SRC
 ** Time to reboot
-Upon reboot the system wll pickup on the new dotfiles.
+Upon reboot the system will pickup on the new dotfiles.
 ** Installing the AUR
 The AUR provides many additional software packages not directly available on standard Arch.
 Note the below instructions will likely pull in the 'go' package (large)
@@ -45,9 +49,9 @@ $ cd yay-git
 $ makepkg -si
 #+END_SRC
 ** Installing core Tools
-You mmight have noticed we are still working in a terminal environment. and why not, there is much that can be done from here. This section has a number of excellent termninal based tools that you will want to have at your finger tips.
+You might have noticed we are still working in a terminal environment. and why not, there is much that can be done from here. This section has a number of excellent terminal based tools that you will want to have at your finger tips.
 *** File Manager
-**** lf
+**** ELF
 A lightweight file manager. Very fast, but very limited in features, unlike *Ranger* which has basically everything pre-installed. But lf is more fun, as you can determine the features you need or like.
 #+BEGIN_SRC bash
 $ yay -S lf
@@ -93,9 +97,23 @@ $ startx
 * Package Installation and Configuration
 ** Editor
 *** Editor - Emacs - Really what else
+This is a chapter by itself. Emacs is many things beside a reasonable text exditor. Yes, vim is fast, by emacs has some real cool features not seen anywhere else, and that is the reason I install it:
+1. Org-mode - the best way to get organised
+2. Magit    - the best way to interact with git
+Heaps of other features too, but I leave that for later explorations
+I use a configuration called Doom from Hissnler. Realy, in the end thats what you want (but try if you like)
+#+BEGIN_SRC bash
 $ sudo pacman -S emacs
 $ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-$ ~/.emacs/doom/bin ./inst
+$ ~/.emacs/doom/bin install
+#+END_SRC
+There are a few supporting tools that need to be installed tp make Emacs work well, including a spelling checker and search feature.
+#+BEGIN_SRC bash
+$ sudo pacman -S aspell
+$ sudo pacman -S aspell-en
+$ sudo pacman -S deft
+#+END_SRC
+
 *** Editor - Neovim installation
 Neovim has some Plug-ins configured that require python to be installed and enabled
 $ sudo python -m ensurepip --upgrade
