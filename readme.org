@@ -1,12 +1,12 @@
-There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linx in the first place, and second to install less software yet do more.
+There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linux in the first place, and second to install less software yet do more.
 * Install Arch
 ** Ananarchy 
-Likely the easiest way to install Arch Linux is with the excellent Anarchy image. It is a prompt driven install, just the enxt level up from installing 'manually' It really shouldn't need much of an explanation, as the options presented are straight forward if you are familiar with Linux.
+Likely the easiest way to install Arch Linux is with the excellent Anarchy image. It is a prompt driven install, just the next level up from installing 'manually' It really shouldn't need much of an explanation, as the options presented are straight forward if you are familiar with Linux.
 - Select no windows manager
 - Select no software
 - Select no graphical start environment
 ** Connect to the wireless network
-You will have to connect to the internet. Assuming you are using wireless, use the NetworkManager tool to connect to wifi (or wired).
+You will have to connect to the internet. Assuming you are using wireless, use the NetworkManager tool to connect to WiFi (or wired).
 #+BEGIN_SRC bash
 $ nmcli device wifi list
 $ nmcli device wifi connect SSID password PASSWORD
@@ -14,6 +14,7 @@ $ nmcli device wifi connect SSID password PASSWORD
 ** First packages to get going
 So now we are connected, we need some basic packages to install repositiores, our dotfiles, etc.
 #+BEGIN_SRC bash
+$ sudo pacman -S base-devel       # Development tools
 $ sudo pacman -S git              # Git version management 
 $ sudo pacman -S rsync            # File synchronisation
 $ sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
@@ -51,15 +52,22 @@ $ makepkg -si
 ** Installing core Tools
 You might have noticed we are still working in a terminal environment. and why not, there is much that can be done from here. This section has a number of excellent terminal based tools that you will want to have at your finger tips.
 *** File Manager
-**** ELF
+**** lf
 A lightweight file manager. Very fast, but very limited in features, unlike *Ranger* which has basically everything pre-installed. But lf is more fun, as you can determine the features you need or like.
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash tangle=no
 $ yay -S lf
 #+END_SRC
 Some of the features I prefer to added are installed as follows:
 #+BEGIN_SRC bash
 $ yay -S pistol          # Many Previews
 $ yay -S chafa           # Image preview in the terminal
+#+END_SRC
+**** nnn
+The fastest file manager in the world, entirely written in C and nicely encapsulated in the linux mindset.
+Nnn does not have a configuration file, but exports a few environment variables that are located in the .bashrc file.
+#+BEGIN_SRC bash
+yay -S nnn
+curl -Ls https://raw.gihubusercontent.com/jarun/nnn/master/plugins/getplugs | sh 
 #+END_SRC
 * Install a Graphical Environemnt
 This is a continues changing area. 
