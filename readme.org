@@ -17,7 +17,6 @@ So now we are connected, we need some basic packages to install repositiores, ou
 $ sudo pacman -S base-devel       # Development tools
 $ sudo pacman -S git              # Git version management 
 $ sudo pacman -S rsync            # File synchronisation
-$ sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
 #+END_SRC
 ** User Directories 
 Install common default user directories.
@@ -74,11 +73,24 @@ This is a continues changing area.
 At the moment I am working with Suckless software to see what it is all about.
 ** X 
 First install the gaphical X environment and dependencies
-$ sudo pacman -S xorg
-$ sudo pacman -S libxft
-$ sudo pacman -S libx11
-$ sudo pacman -S libxinerama
-** Dynamic Window Manager
+#+BEGIN_SRC bash
+sudo pacman -S xorg             # Provides the Xorg environment
+sudo pacman -S xorg-xinit       # Provides xinit and startx
+sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
+sudo pacman -S libxft
+sudo pacman -S libx11
+sudo pacman -S libxinerama
+#+END_SRC
+** BSPWM Tiling Windows Manager
+At the moment I like this tiling windows manager best as it has a very nice separation of responsibilities.
+To obtain a complete environment, you require three packages with 1) a windows manager 2) a keyboard handler and 3) a status bar (if you wish)
+Install with the following:
+#+BEGIN_SRC bash
+sudo pacman -S bspwm
+sudo pacman -S xshkd
+sudo pacman -S alacritty
+#+END_SRC
+** DWM Tiling Windows Manager
 Install with the following:
 $ cd ~
 $ mkdir Repos
