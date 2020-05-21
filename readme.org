@@ -84,11 +84,13 @@ sudo pacman -S libxinerama
 ** BSPWM Tiling Windows Manager
 At the moment I like this tiling windows manager best as it has a very nice separation of responsibilities.
 To obtain a complete environment, you require three packages with 1) a windows manager 2) a keyboard handler and 3) a status bar (if you wish)
+Note: polybar requires the Python librarys to be installed.
 Install with the following:
 #+BEGIN_SRC bash
-sudo pacman -S bspwm
-sudo pacman -S xshkd
-sudo pacman -S alacritty
+sudo yay -S bspwm
+sudo yay -S xshkd
+sudo yay -S polybar
+sudo yay -S alacritty
 #+END_SRC
 ** DWM Tiling Windows Manager
 Install with the following:
