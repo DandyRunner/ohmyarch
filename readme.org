@@ -50,6 +50,10 @@ $ makepkg -si
 #+END_SRC
 ** Installing core Tools
 You might have noticed we are still working in a terminal environment. and why not, there is much that can be done from here. This section has a number of excellent terminal based tools that you will want to have at your finger tips.
+*** Fonts first
+#+BEGIN_SRC bash
+yay -S nerd-fonts-source-code-pro
+#+END_SRC
 *** File Manager
 **** lf
 A lightweight file manager. Very fast, but very limited in features, unlike *Ranger* which has basically everything pre-installed. But lf is more fun, as you can determine the features you need or like.
@@ -58,7 +62,7 @@ $ yay -S lf
 #+END_SRC
 Some of the features I prefer to added are installed as follows:
 #+BEGIN_SRC bash
-$ yay -S pistol          # Many Previews
+$ yay -S pistol-git      # Many Previews
 $ yay -S chafa           # Image preview in the terminal
 #+END_SRC
 **** nnn
@@ -68,18 +72,94 @@ Nnn does not have a configuration file, but exports a few environment variables 
 yay -S nnn
 curl -Ls https://raw.gihubusercontent.com/jarun/nnn/master/plugins/getplugs | sh 
 #+END_SRC
+*** Bash-it
+Some excellent extension to the bash environment, with a community driven development for bash aliases, scripts and autocompletions.
+#+BEGIN_SRC bash
+cd ~
+yay -S bash-it
+~/.bash-it/install.sh 
+#+END_SRC
+*** Finding files
+The linux system, of course, has some excellent tools to locate files. Most tools are present from core, but the locate tool needs to be installed.
+#+BEGIN_SRC bash
+yay -S mlocate
+#+END_SRC
+Now you can use tools such as:
+#+BEGIN_SRC bash
+updatedb               # Update the file index
+locate                 # Find files that contain
+whereis                # Find that executable
+#+END_SRC
 * Install a Graphical Environemnt
 This is a continues changing area. 
 At the moment I am working with Suckless software to see what it is all about.
-** X 
+** Hardware Drivers
+You likely want to install some drivers for the hardware, as most wont work with a bare bone Arch install.
+*** Video
+First figure out what hardware you have onboard:
+#+BEGIN_SRC bash
+lspci | grep -e VGA -e 3D
+#+END_SRC
+#+RESULTS:
+: 00:02.0 VGA compatible controller: Intel Corporation HD Graphics 620 (rev 02)
+
+Now search for the correct driver in the package manager:
+#+BEGIN_SRC bash
+pacman -Ss xf86-video
+#+END_SRC
+
+#+RESULTS:
+| extra/xf86-video-amdgpu     | 19.1.0-2                   | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | amdgpu                     | video                     | driver       |             |        |        |       |
+| extra/xf86-video-ati        | 1:19.1.0-2                 | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | ati                        | video                     | driver       |             |        |        |       |
+| extra/xf86-video-dummy      | 0.3.8-4                    | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | dummy                      | video                     | driver       |             |        |        |       |
+| extra/xf86-video-fbdev      | 0.5.0-2                    | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | framebuffer                | video                     | driver       |             |        |        |       |
+| extra/xf86-video-intel      | 1:2.99.917+908+g7181c5a4-1 | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | Intel                      | i810/i830/i915/945G/G965+ | video        | drivers     |        |        |       |
+| extra/xf86-video-nouveau    | 1.0.16-2                   | (xorg-drivers)            |              |             |        |        |       |
+| Open                        | Source                     | 3D                        | acceleration | driver      | for    | nVidia | cards |
+| extra/xf86-video-openchrome | 0.6.0-4                    | (xorg-drivers)            |              |             |        |        |       |
+| X.Org                       | Openchrome                 | drivers                   |              |             |        |        |       |
+| extra/xf86-video-sisusb     | 0.9.7-3                    |                           |              |             |        |        |       |
+| X.org                       | SiS                        | USB                       | video        | driver      |        |        |       |
+| extra/xf86-video-vesa       | 2.4.0-3                    | (xorg-drivers             | xorg)        | [installed] |        |        |       |
+| X.org                       | vesa                       | video                     | driver       |             |        |        |       |
+| extra/xf86-video-vmware     | 13.3.0-2                   | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | vmware                     | video                     | driver       |             |        |        |       |
+| extra/xf86-video-voodoo     | 1.2.5-11                   | (xorg-drivers)            |              |             |        |        |       |
+| X.org                       | 3dfx                       | Voodoo1/Voodoo2           | 2D           | video       | driver |        |       |
+| community/xf86-video-qxl    | 0.1.5-7                    | (xorg-drivers)            |              |             |        |        |       |
+| Xorg                        | X11                        | qxl                       | video        | driver      |        |        |       |
+
+Now install the correct driver with
+#+BEGIN_SRC bash
+sudo pacman -S xf86-video-intel
+#+END_SRC
+*** Audio
+Different options availbale for Audio, but the standard is 'Alsa' Advanced Linux Sound System.
+**** Also
+Although likely already installed, if some parts are missing or not working, the following will install:
+#+BEGIN_SRC bash
+sudo pacman -S alsa-utils
+#+END_SRC
+If for whatever reason the audi is not working / activating, tyr this
+#+BEGIN_SRC bash
+sudo pacman -Qs alsa-utils
+sudo pacman -S alsa-utils
+#+END_SRC
+** X
 First install the gaphical X environment and dependencies
 #+BEGIN_SRC bash
-sudo pacman -S xorg             # Provides the Xorg environment
+#sudo pacman -S xorg             # Provides the entire Xorg environment
+sudo pacman -S xorg-server
 sudo pacman -S xorg-xinit       # Provides xinit and startx
 sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
-sudo pacman -S libxft
-sudo pacman -S libx11
-sudo pacman -S libxinerama
+#sudo pacman -S libxft           # FreeType font drawing library for X
+#sudo pacman -S libx11           # X11 client side library
+#sudo pacman -S libxinerama
 #+END_SRC
 ** BSPWM Tiling Windows Manager
 At the moment I like this tiling windows manager best as it has a very nice separation of responsibilities.
@@ -87,11 +167,26 @@ To obtain a complete environment, you require three packages with 1) a windows m
 Note: polybar requires the Python librarys to be installed.
 Install with the following:
 #+BEGIN_SRC bash
-sudo yay -S bspwm
-sudo yay -S xshkd
-sudo yay -S polybar
-sudo yay -S alacritty
+yay -S bspwm
+yay -S xshkd
+yay -S polybar
+yay -S alacritty
 #+END_SRC
+I further use the suckless application dmenu, for application selection.
+#+BEGIN_SRC bash
+git clone git://git.suckless.org/dmenu
+cd dmenu
+sudo make clean install
+#+END_SRC
+A strategy is:
+1. Master always hard set to origin
+2. branch with pach
+3. Merge patch back in master and build
+4. Good sample: https://www.youtube.com/watch?v=UEmPboaTDpQ
+#+BEGIN_SRC bash
+make clean && rm -f config.h && git reset --hard origin/master
+#+END_SRC
+
 ** DWM Tiling Windows Manager
 Install with the following:
 $ cd ~
@@ -135,16 +230,53 @@ $ sudo pacman -S aspell
 $ sudo pacman -S aspell-en
 $ sudo pacman -S deft
 #+END_SRC
-
+And finally after cheking that all is running, start emacs as a deamon.
+#+BEGIN_SRC bash
+systemctl --user enable --now emacs
+#+END_SRC
+Now you can connect to the deamon with:
+#+BEGIN_SRC bash
+emacsclient -nc       # Emacs -no wait -new frame graphical
+emacsclient -t        # Emacs in the terminal
+emacsclient -a "" -t  # As repsonse to git and mutt
+#+END_SRC
 *** Editor - Neovim installation
 Neovim has some Plug-ins configured that require python to be installed and enabled
 $ sudo python -m ensurepip --upgrade
 $ python3 -m pip install --user --upgrade pynvim
 $ sudo pacman -S fontconfig
 $ sudo pacman -S powerline-fonts
-** File Browser
-$ yay -S lf
-$ yay -S pistol-git
+** Email
+There are a few email applications out there, but mutt has ben there since the beginning and neomutt is a fork of this already excellent application, actively worked on today. Following the Linux phylosophy, you will need a few applications to receive mail, send mail, look at mail, and decode some mail formats.
+
+Install the folowing apps:
+#+BEGIN_SRC bash
+sudo pacman -S neomutt        # A email client
+sudo pacman -S isync          # Imap and MailDir mailbox synchronizer
+sudo pacman -S msmtp          # Send email
+sudo pacman -S pass           # Store your password(s) safely
+sudo pacman -S lynx           # View html emails
+sudo pacman -S notmuch        # Index and search email real fast
+sudo pacman -S libnotify      # Get notified of emails arriving on synchronisation
+sudo pacman -S abook          # Address book - terminal based of course
+sudo pacman -S w3m            # Be able to see html emails
+#+END_SRC
+
+That was the easy part, now it's time to configure the tools.
+1. Ensure you have your password set up. This can be done by creating a gpg key and account entry.
+#+BEGIN_SRC bash
+gpg --full-key-gen            # Generate a gpg key pair
+gpg insert email/<email@m.com # Create a password for the email
+#+END_SRC
+2. Create a directory for your mail box
+#+BEGIN_SRC bash
+mkdir ~/.local/shared/mail/<account>
+#+END_SRC
+3. Set up your configuration file for mbsync, call ~/.mbsyncrc
+4. Sync your email for the first time
+#+BEGIN_SRC bash
+mbsync -a
+#+END_SRC
 ** Browser - Brave
 A browser based on chrome, but without the peeking options build in.
 Note this package installs a number of fonts and themes.
