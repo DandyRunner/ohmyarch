@@ -24,6 +24,19 @@ Install common default user directories.
 $ yay -S xdg-user-dirs
 $ xdg-user-dirs-update
 #+END_SRC
+** File types and mime
+Associate programs to file types
+#+BEGIN_SRC bash
+yay -S xdg-utils
+#+END_SRC
+The utilities included provide:
+#+BEGIN_SRC bash
+xdg-open <file>                       # Open a file and mime used to select apps
+xdg-mime query filetype <file>        # What file type is it
+xdg-mime query default <type>         # What app opens type
+xdg-mime default <app.desktop> <type> # Change the default app 
+
+#+END_SRC
 ** Clone the dotfiles from the repository to kick-start upcoming software
 As we install packages we have the option of configuring them as required, or we can borrow some dotfiles (applications configurations from others). I have created my own dotfiles and required to be set up as follows:
 #+BEGIN_SRC bash
