@@ -8,21 +8,21 @@ Likely the easiest way to install Arch Linux is with the excellent Anarchy image
 ** Connect to the wireless network
 You will have to connect to the internet. Assuming you are using wireless, use the NetworkManager tool to connect to WiFi (or wired).
 #+BEGIN_SRC bash
-$ nmcli device wifi list
-$ nmcli device wifi connect SSID password PASSWORD
+nmcli device wifi list
+nmcli device wifi connect SSID password PASSWORD
 #+END_SRC
 ** First packages to get going
-So now we are connected, we need some basic packages to install repositiores, our dotfiles, etc.
+So now we are connected, we need some basic packages to install repositories, our dotfiles, etc.
 #+BEGIN_SRC bash
-$ sudo pacman -S base-devel       # Development tools
-$ sudo pacman -S git              # Git version management 
-$ sudo pacman -S rsync            # File synchronisation
+sudo pacman -S base-devel       # Development tools
+sudo pacman -S git              # Git version management
+sudo pacman -S rsync            # File synchronisation
 #+END_SRC
 ** User Directories 
 Install common default user directories.
 #+BEGIN_SRC bash
-$ yay -S xdg-user-dirs
-$ xdg-user-dirs-update
+yay -S xdg-user-dirs
+xdg-user-dirs-update
 #+END_SRC
 ** File types and mime
 Associate programs to file types
@@ -35,19 +35,18 @@ xdg-open <file>                       # Open a file and mime used to select apps
 xdg-mime query filetype <file>        # What file type is it
 xdg-mime query default <type>         # What app opens type
 xdg-mime default <app.desktop> <type> # Change the default app 
-
 #+END_SRC
 ** Clone the dotfiles from the repository to kick-start upcoming software
 As we install packages we have the option of configuring them as required, or we can borrow some dotfiles (applications configurations from others). I have created my own dotfiles and required to be set up as follows:
 #+BEGIN_SRC bash
-$ alias='dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
-$ git clone --recursive --separate-git-dir=$HOME/.dotfiles.git https://github.com/dandyrunner/dotfiles.git /tmp/dotfiles
-$ rsync -rvl --exclude ".git" /tmp/dotfiles/ $HOME/
-$ rm -r /tmp/dotfiles
-$ dotfiles submodule update --init --recursive $HOME
-$ dotfiles status-showUntrackedFiles=no
-$ dotfiles config alias.untracked "status -u ."
-$ dotfiles config alias.untracked-at "status -u"
+alias='dotfiles='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+git clone --recursive --separate-git-dir=$HOME/.dotfiles.git https://github.com/dandyrunner/dotfiles.git /tmp/dotfiles
+rsync -rvl --exclude ".git" /tmp/dotfiles/ $HOME/
+rm -r /tmp/dotfiles
+dotfiles submodule update --init --recursive $HOME
+dotfiles status-showUntrackedFiles=no
+dotfiles config alias.untracked "status -u ."
+dotfiles config alias.untracked-at "status -u"
 #+END_SRC
 ** Time to reboot
 Upon reboot the system will pickup on the new dotfiles.
@@ -55,11 +54,11 @@ Upon reboot the system will pickup on the new dotfiles.
 The AUR provides many additional software packages not directly available on standard Arch.
 Note the below instructions will likely pull in the 'go' package (large)
 #+BEGIN_SRC bash
-$ cd /opt
-$ sudo git clone https://aur.archlinux.org/yay-git.git
-$ sudo chown -R ejansen:ejansen yay-git/
-$ cd yay-git
-$ makepkg -si
+cd /opt
+sudo git clone https://aur.archlinux.org/yay-git.git
+sudo chown -R ejansen:ejansen yay-git/
+cd yay-git
+makepkg -si
 #+END_SRC
 ** Installing core Tools
 You might have noticed we are still working in a terminal environment. and why not, there is much that can be done from here. This section has a number of excellent terminal based tools that you will want to have at your finger tips.
@@ -68,32 +67,26 @@ You might have noticed we are still working in a terminal environment. and why n
 yay -S nerd-fonts-source-code-pro
 #+END_SRC
 *** File Manager
+There are many nice terminal file managers available. Some are very complete and all inclusive (like 'ranger'), others are very bare bone with very little opportunity to customise to your liking or workflow (like 'nnn' or 'fff'). I have chosen for 'lf' which sit just in between complete but ate the same time change to your liking. Also fast.
 **** lf
 A lightweight file manager. Very fast, but very limited in features, unlike *Ranger* which has basically everything pre-installed. But lf is more fun, as you can determine the features you need or like.
 #+BEGIN_SRC bash tangle=no
-$ yay -S lf
+yay -S lf
 #+END_SRC
 Some of the features I prefer to added are installed as follows:
 #+BEGIN_SRC bash
-$ yay -S pistol-git      # Many Previews
-$ yay -S chafa           # Image preview in the terminal
-#+END_SRC
-**** nnn
-The fastest file manager in the world, entirely written in C and nicely encapsulated in the linux mindset.
-Nnn does not have a configuration file, but exports a few environment variables that are located in the .bashrc file.
-#+BEGIN_SRC bash
-yay -S nnn
-curl -Ls https://raw.gihubusercontent.com/jarun/nnn/master/plugins/getplugs | sh 
+yay -S pistol-git      # Many Previews
+yay -S chafa           # Image preview in the terminal
 #+END_SRC
 *** Bash-it
-Some excellent extension to the bash environment, with a community driven development for bash aliases, scripts and autocompletions.
+Some excellent extension to the bash environment, with a community driven development for bash aliases, scripts and auto completions.
 #+BEGIN_SRC bash
 cd ~
 yay -S bash-it
 ~/.bash-it/install.sh 
 #+END_SRC
 *** Finding files
-The linux system, of course, has some excellent tools to locate files. Most tools are present from core, but the locate tool needs to be installed.
+The Linux system, of course, has some excellent tools to locate files. Most tools are present from core, but the locate tool needs to be installed.
 #+BEGIN_SRC bash
 yay -S mlocate
 #+END_SRC
@@ -103,9 +96,9 @@ updatedb               # Update the file index
 locate                 # Find files that contain
 whereis                # Find that executable
 #+END_SRC
-* Install a Graphical Environemnt
+* Install a Graphical Environment
 This is a continues changing area. 
-At the moment I am working with Suckless software to see what it is all about.
+At the moment I am working with Suckles software to see what it is all about.
 ** Hardware Drivers
 You likely want to install some drivers for the hardware, as most wont work with a bare bone Arch install.
 *** Video
@@ -152,19 +145,19 @@ Now install the correct driver with
 sudo pacman -S xf86-video-intel
 #+END_SRC
 *** Audio
-Different options availbale for Audio, but the standard is 'Alsa' Advanced Linux Sound System.
-**** Also
+Different options available for Audio, but the standard is 'Alsa' Advanced Linux Sound System.
+**** Alsa
 Although likely already installed, if some parts are missing or not working, the following will install:
 #+BEGIN_SRC bash
 sudo pacman -S alsa-utils
 #+END_SRC
-If for whatever reason the audi is not working / activating, tyr this
+If for whatever reason the audio is not working / activating, try this
 #+BEGIN_SRC bash
 sudo pacman -Qs alsa-utils
 sudo pacman -S alsa-utils
 #+END_SRC
 ** X
-First install the gaphical X environment and dependencies
+First install the graphical X environment and dependencies
 #+BEGIN_SRC bash
 #sudo pacman -S xorg             # Provides the entire Xorg environment
 sudo pacman -S xorg-server
@@ -177,7 +170,7 @@ sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
 ** BSPWM Tiling Windows Manager
 At the moment I like this tiling windows manager best as it has a very nice separation of responsibilities.
 To obtain a complete environment, you require three packages with 1) a windows manager 2) a keyboard handler and 3) a status bar (if you wish)
-Note: polybar requires the Python librarys to be installed.
+Note: polybar requires the Python libraries to be installed.
 Install with the following:
 #+BEGIN_SRC bash
 yay -S bspwm
@@ -185,7 +178,7 @@ yay -S xshkd
 yay -S polybar
 yay -S alacritty
 #+END_SRC
-I further use the suckless application dmenu, for application selection.
+I further use the suckles application dmenu, for application selection.
 #+BEGIN_SRC bash
 git clone git://git.suckless.org/dmenu
 cd dmenu
@@ -209,13 +202,13 @@ $ git clone https://github.com/dandyrunner/dwm
 $ cd dwm
 $ sudo make clean install
 
-You will need to have the correct terminal installed - or nothing buta black screen will greet you
+You will need to have the correct terminal installed - or nothing but black screen will greet you
 $ cd ~/Repos
 $ git clone https://github.com/dandyrunner/st
 $ cd st
 $ sudo make clean install
 
-And realy, you would need a way to fire up those apps that you don;t have key bindings for
+And really, you would need a way to fire up those apps that you don;t have key bindings for
 $ cd ~/Repos
 $ git clone https://github.com/dandyrunner/dmenu
 $ cd dmenu
@@ -225,13 +218,37 @@ Ready to fire up the system, and enjoy.
 $ startx
       
 * Package Installation and Configuration
+** Screensaver
+Just in case you forget to logoff or logout your system, install a safety option with screensaver. It has the coolest "The Matrix" option via the theme xmatrix (standalone known as cmatrix)
+#+BEGIN_SRC bash
+yay -S xscreensaver
+#+END_SRC
+The to configure and select the xmatrix theme, run:
+#+BEGIN_SRC bash
+xscreensaver &
+xscreensaver-demo
+#+END_SRC
+Install it as a service bu creating the xscreensaver.service file in ~/.config/systemd/user/
+#+BEGIN_SRC 
+[Unit]
+Description=XScreenSaver
+[Service]
+ExecStart=xscreensaver
+[Install]
+WantedBy=default.target
+#+END_SRC
+And start it with
+#+BEGIN_SRC bash
+systemctl --user enable xscreensaver
+systemctl --user start xscreensaver
+#+END_SRC
 ** Editor
 *** Editor - Emacs - Really what else
-This is a chapter by itself. Emacs is many things beside a reasonable text exditor. Yes, vim is fast, by emacs has some real cool features not seen anywhere else, and that is the reason I install it:
+This is a chapter by itself. Emacs is many things beside a reasonable text editor. Yes, vim is fast, by Emacs has some real cool features not seen anywhere else, and that is the reason I install it:
 1. Org-mode - the best way to get organised
 2. Magit    - the best way to interact with git
 Heaps of other features too, but I leave that for later explorations
-I use a configuration called Doom from Hissnler. Realy, in the end thats what you want (but try if you like)
+I use a configuration called Doom from Hissnler. Really, in the end that's what you want (but try if you like)
 #+BEGIN_SRC bash
 $ sudo pacman -S emacs
 $ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
@@ -243,11 +260,11 @@ $ sudo pacman -S aspell
 $ sudo pacman -S aspell-en
 $ sudo pacman -S deft
 #+END_SRC
-And finally after cheking that all is running, start emacs as a deamon.
+And finally after checking that all is running, start Emacs as a daemon.
 #+BEGIN_SRC bash
 systemctl --user enable --now emacs
 #+END_SRC
-Now you can connect to the deamon with:
+Now you can connect to the daemon with:
 #+BEGIN_SRC bash
 emacsclient -nc       # Emacs -no wait -new frame graphical
 emacsclient -t        # Emacs in the terminal
@@ -260,9 +277,9 @@ $ python3 -m pip install --user --upgrade pynvim
 $ sudo pacman -S fontconfig
 $ sudo pacman -S powerline-fonts
 ** Email
-There are a few email applications out there, but mutt has ben there since the beginning and neomutt is a fork of this already excellent application, actively worked on today. Following the Linux phylosophy, you will need a few applications to receive mail, send mail, look at mail, and decode some mail formats.
+There are a few email applications out there, but mutt has been there since the beginning and neomutt is a fork of this already excellent application, actively worked on today. Following the Linux philosophy, you will need a few applications to receive mail, send mail, look at mail, and decode some mail formats.
 
-Install the folowing apps:
+Install the following apps:
 #+BEGIN_SRC bash
 sudo pacman -S neomutt        # A email client
 sudo pacman -S isync          # Imap and MailDir mailbox synchronizer
