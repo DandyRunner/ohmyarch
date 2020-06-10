@@ -73,10 +73,12 @@ A lightweight file manager. Very fast, but very limited in features, unlike *Ran
 #+BEGIN_SRC bash tangle=no
 yay -S lf
 #+END_SRC
-Some of the features I prefer to added are installed as follows:
+Some of the features I prefer to be added are installed as follows:
 #+BEGIN_SRC bash
 yay -S pistol-git      # Many Previews
 yay -S chafa           # Image preview in the terminal
+yay -S highlight       # For many types of markdown texts
+yay -S glow            # For other markdowns
 #+END_SRC
 *** Bash-it
 Some excellent extension to the bash environment, with a community driven development for bash aliases, scripts and auto completions.
@@ -167,6 +169,15 @@ sudo pacman -S xorg-xmodmap     # Provieds for remapping the Ctrl and Caps keys
 #sudo pacman -S libx11           # X11 client side library
 #sudo pacman -S libxinerama
 #+END_SRC
+** Notifications
+Once X is initialised and the Windows manager is running, one cnaobtain notifications from applications - like email - when events occur. The standard package is 'libnotofy', but there is a more advanced package available (from the suckles family) called 'dunst'. Lets install:
+#+BEGIN_SRC bash
+yay -S dunst
+#+END_SRC
+You can test the function of the notification system with a test such as this:
+#+BEGIN_SRC bash tangle no
+notify-send 'Hello world!' 'This is an example notification.' --icon=dialog-information
+#+END_SRC
 ** BSPWM Tiling Windows Manager
 At the moment I like this tiling windows manager best as it has a very nice separation of responsibilities.
 To obtain a complete environment, you require three packages with 1) a windows manager 2) a keyboard handler and 3) a status bar (if you wish)
@@ -177,6 +188,7 @@ yay -S bspwm
 yay -S xshkd
 yay -S polybar
 yay -S alacritty
+yay -S pacman-contrib
 #+END_SRC
 I further use the suckles application dmenu, for application selection.
 #+BEGIN_SRC bash
@@ -217,7 +229,7 @@ $ subo make clean install
 Ready to fire up the system, and enjoy.
 $ startx
       
-* Package Installation and Configuration
+* Package Installation and Configuration/
 ** Screensaver
 Just in case you forget to logoff or logout your system, install a safety option with screensaver. It has the coolest "The Matrix" option via the theme xmatrix (standalone known as cmatrix)
 #+BEGIN_SRC bash
@@ -270,6 +282,11 @@ emacsclient -nc       # Emacs -no wait -new frame graphical
 emacsclient -t        # Emacs in the terminal
 emacsclient -a "" -t  # As repsonse to git and mutt
 #+END_SRC
+And then there is the issue with speed and color. No doubt the terminal version of emacsclient is a ton faster than the graphical environment, and if you wish to have the snappy repsonse you might be ised to with vim, the terminal is the way to go.
+Running emacs in terminal mode will likely give you funny/strange colors. One way around it is to set the environment TERM=xterm-256color. If you set the environment with an export permanently, emacs is slow opening files for unknow reasons (yet). Hence, I set it once then reset it again.
+#+BEGIN_SRC bash
+TERM=xterm-256color emacsclient
+#+END_SRC
 *** Editor - Neovim installation
 Neovim has some Plug-ins configured that require python to be installed and enabled
 $ sudo python -m ensurepip --upgrade
@@ -311,3 +328,34 @@ mbsync -a
 A browser based on chrome, but without the peeking options build in.
 Note this package installs a number of fonts and themes.
 $ yay -S brave
+** iPhone
+To connect your i-device and get access to photos , videos and other documents, there is some wok to be done. First install the following packages:
+#+BEGIN_SRC bash
+yay -S libimobiledevice          # Speak i-device
+yay -S ifuse                     # Mounting utility from the AUR
+#+END_SRC
+After installing the above to utils, check that the usbmuxd.service started automatically (installed wirh libmobiledevice).
+#+BEGIN_SRC bash
+systemctl status usbmuxd.service
+#+END_SRC
+Next we need to pair device. Make sure the device is logged into -or better unlocked.
+From here has to be repeated every time you reconnect the iphone.
+#+BEGIN_SRC bash
+idevicepair pair
+#+END_SRC
+The above should be succesfull, annd now we can mount the device to access the file system (or a portion of it).
+#+BEGIN_SRC bash
+ifuse ~/iphone
+#ifuse -o allow_other ~/iphone
+#+END_SRC
+I use an iphone folder in my home folder.
+** Redshift
+A tool needed if you want to catch any sleep. This background tool drops the blue colors from the terminal once evening sets in, ensuring you will get sleepy with the red-ish colors. To install:
+#+BEGIN_SRC bash
+yay -S redshift
+#+END_SRC
+To run the tool you need this:
+#+BEGIN_SRC bash
+redshift -l -37.814:144.96332
+#+END_SRC
+where the lattitude:longitude can be obtained from geonames.org.
