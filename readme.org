@@ -359,3 +359,10 @@ To run the tool you need this:
 redshift -l -37.814:144.96332
 #+END_SRC
 where the lattitude:longitude can be obtained from geonames.org.
+**
+** Lazygit
+Nice tool to work with the git environment, and allows me to forget about all the functions that git requires.
+To install:
+#+BEGIN_SRC bash
+yay -S lazygit
+#+END_SRC
