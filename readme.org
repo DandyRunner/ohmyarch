@@ -1,4 +1,6 @@
 There are several methods to install Arch Linux. This document describes a method a minimum version of Arch Linux. I try to refrain from installing large bundles and restrict to installing software that I need. The main driver is to learn more about Linux in the first place, and second to install less software yet do more.
+
+This file can be used to install my version of Arch linux by tangling this file (org-bable-tanlge) and then run the output as sudo. Anarchy must be installed and the network must be up.
 * Install Arch
 ** Ananarchy 
 Likely the easiest way to install Arch Linux is with the excellent Anarchy image. It is a prompt driven install, just the next level up from installing 'manually' It really shouldn't need much of an explanation, as the options presented are straight forward if you are familiar with Linux.
@@ -13,24 +15,26 @@ nmcli device wifi connect SSID password PASSWORD
 #+END_SRC
 ** First packages to get going
 So now we are connected, we need some basic packages to install repositories, our dotfiles, etc.
-#+BEGIN_SRC bash
-sudo pacman -S base-devel       # Development tools
-sudo pacman -S git              # Git version management
-sudo pacman -S rsync            # File synchronisation
+#+BEGIN_SRC bash :tangle yes
+echo "Development tools install"
+pacman --noconfirm -S base-devel       # Development tools
+pacman --noconfirm -S git              # Git version management
+pacman --noconfirm -S rsync            # File synchronisation
 #+END_SRC
 ** User Directories 
 Install common default user directories.
-#+BEGIN_SRC bash
-yay -S xdg-user-dirs
+#+BEGIN_SRC bash :tangle yes
+echo "XDG utilities install"
+pacman --noconfirm -S xdg-user-dirs
+pacman --noconfirm -S xdg-utils
 xdg-user-dirs-update
 #+END_SRC
 ** File types and mime
 Associate programs to file types
-#+BEGIN_SRC bash
-yay -S xdg-utils
+#+BEGIN_SRC bash :tangle yes
 #+END_SRC
 The utilities included provide:
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash :tangle no
 xdg-open <file>                       # Open a file and mime used to select apps
 xdg-mime query filetype <file>        # What file type is it
 xdg-mime query default <type>         # What app opens type
@@ -53,13 +57,17 @@ Upon reboot the system will pickup on the new dotfiles.
 ** Installing the AUR
 The AUR provides many additional software packages not directly available on standard Arch.
 Note the below instructions will likely pull in the 'go' package (large)
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash :tangle yes
+echo "Yay install"
 cd /opt
-sudo git clone https://aur.archlinux.org/yay-git.git
-sudo chown -R ejansen:ejansen yay-git/
+git clone https://aur.archlinux.org/yay-git.git
+chown -R ejansen:ejansen yay-git/
 cd yay-git
 makepkg -si
 #+END_SRC
+
+#+RESULTS:
+
 ** Installing core Tools
 You might have noticed we are still working in a terminal environment. and why not, there is much that can be done from here. This section has a number of excellent terminal based tools that you will want to have at your finger tips.
 *** Fonts first
@@ -229,7 +237,7 @@ $ subo make clean install
 Ready to fire up the system, and enjoy.
 $ startx
       
-* Package Installation and Configuration/
+* Package Installation and Configuration
 ** Screensaver
 Just in case you forget to logoff or logout your system, install a safety option with screensaver. It has the coolest "The Matrix" option via the theme xmatrix (standalone known as cmatrix)
 #+BEGIN_SRC bash
@@ -287,6 +295,7 @@ Running emacs in terminal mode will likely give you funny/strange colors. One wa
 #+BEGIN_SRC bash
 TERM=xterm-256color emacsclient
 #+END_SRC
+If you alacritty, then the TERM variable can be set in the config file.
 *** Editor - Neovim installation
 Neovim has some Plug-ins configured that require python to be installed and enabled
 $ sudo python -m ensurepip --upgrade
@@ -327,7 +336,9 @@ mbsync -a
 ** Browser - Brave
 A browser based on chrome, but without the peeking options build in.
 Note this package installs a number of fonts and themes.
-$ yay -S brave
+#+BEGIN_SRC bash
+yay -S brave
+#+END_SRC
 ** iPhone
 To connect your i-device and get access to photos , videos and other documents, there is some wok to be done. First install the following packages:
 #+BEGIN_SRC bash
@@ -366,3 +377,53 @@ To install:
 #+BEGIN_SRC bash
 yay -S lazygit
 #+END_SRC
+** Docker
+Needless to say, docker provides a clean 'vm' environment for various services to try or use, without the overhead of a virtual machine.
+Complete the following for the install of Docker:
+#+BEGIN_SRC bash
+yay -S docker                    : install the docker package
+systemctl enable docker.service  : enable the docker service
+systemctl start docker.service   : start the docker service
+sudo docker info                 : confirm docker is installed and operational -> fails
+#+END_SRC
+Note that the above docker info only returns if run as sudo.
+#+BEGIN_SRC bash
+gpasswd -a <user> docker        : add user to the docker group
+bash_it enable alias docker     : enable docker aliases dk*
+bash_it enable completion docker: enable docker completion
+docker info
+#+END_SRC
+Some usefull commands for the command line
+#+BEGIN_SRC bash
+docker info                     : list overview of various docker status
+docker ps                       : list containers running
+docker images                   : list images
+#+END_SRC
+** File and directory info
+A small thing but more pleasant to look at and some additonal git status information thrown in.
+Replaces with an alias the la and ll commmands.
+#+BEGIN_SRC bash
+yay -S exa
+#+END_SRC
+** Find files and directories
+An improved 'find' function with fd
+#+BEGIN_SRC bash
+yay -S fd
+#+END_SRC
+** System Info
+A nice graphical representation of system usage making advantage of go.
+#+BEGIN_SRC bash
+yay -S gotop
+#+END_SRC
+** Nicer ping
+Pretty ping command with graph like response times
+#+BEGIN_SRC bash
+yay -S prettyping
+#+END_SRC
+* Thinks to try
+** Streaming
+There are a few packages available supporting streaming, including:
+- [ ] Peerflix               : streaming from a torrent magnet to a destination - works
+- [ ] Castnow                : stream to a google chromecast (not LG)
+- [ ] Dlnacast               : stream to a smart device (including LG)
+- [ ] Universal Media Server : appears interesting
