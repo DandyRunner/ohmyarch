@@ -420,6 +420,15 @@ Pretty ping command with graph like response times
 #+BEGIN_SRC bash
 yay -S prettyping
 #+END_SRC
+** Virtual Machines
+*** Qemu
+A much smal application that install withing seconds and really doesn't require much more than it provides out of the box.
+The ovmf package is required to install arch iso's (or others) with UEFI.
+The ovmf is found in /usr/share/ovmf/OVMF_CODE.fd which is pointed in qemy to the firmware.
+#+BEGIN_SRC bash
+yay -S qemu aqemu ovmf
+#+END_SRC
+
 * Thinks to try
 ** Streaming
 There are a few packages available supporting streaming, including:
